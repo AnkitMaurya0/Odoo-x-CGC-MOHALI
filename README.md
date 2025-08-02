@@ -5,7 +5,7 @@
 
 ## 1. Team Name and Member Details
 
-**Team Name:** CodeCivic
+**Team Name:** Smart Coder
 
 **Member Details:**
 - **Name:** Ankit Kumar
