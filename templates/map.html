@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Map View - CivicTrack</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script>
+        function getCurrentLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    document.getElementById('latitude').value = position.coords.latitude;
+                    document.getElementById('longitude').value = position.coords.longitude;
+                    document.getElementById('locationForm').submit();
+                }, function(error) {
+                    alert('Unable to fetch location. Please allow location access.');
+                });
+            } else {
+                alert('Geolocation is not supported by this browser.');
+            }
+        }
+    </script>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <h1 class="logo">CivicTrack</h1>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="/report">Report Issue</a></li>
+                <li><a href="/map">Map View</a></li>
+                <li><a href="/issues">All Issues</a></li>
+                <li><a href="/profile">Profile</a></li>
+                <li><a href="/logout">Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="form-section">
+        <h2>Check Nearby Issues (within 5 km)</h2>
+        <form id="locationForm" method="POST" action="/map">
+            <input type="hidden" id="latitude" name="latitude">
+            <input type="hidden" id="longitude" name="longitude">
+            <button type="button" class="btn" onclick="getCurrentLocation()">Check Location</button>
+        </form>
+    </section>
+
+    {% if message %}
+    <section class="form-section">
+        <p style="color: red; text-align: center;">{{ message }}</p>
+    </section>
+    {% endif %}
+
+    {% if issues %}
+    <section class="form-section">
+        <h2>Issues Near You</h2>
+        <ul>
+            {% for issue in issues %}
+            <li><strong>{{ issue[1] }}</strong> ({{ issue[2] }}) - Status: {{ issue[3] }}</li>
+            {% endfor %}
+        </ul>
+    </section>
+    {% endif %}
+
+    <footer class="footer-section">
+        <div class="container">
+            <p>&copy; 2025 CivicTrack | Empowering Communities</p>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Report Issue - CivicTrack</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script>
+        function getCurrentLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    document.getElementById('latitude').value = position.coords.latitude;
+                    document.getElementById('longitude').value = position.coords.longitude;
+                }, function(error) {
+                    alert('Unable to fetch location. Please allow location access.');
+                });
+            } else {
+                alert('Geolocation is not supported by this browser.');
+            }
+        }
+
+        // Fetch location on page load
+        window.onload = getCurrentLocation;
+    </script>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="container">
+            <h1 class="logo">CivicTrack</h1>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="/report">Report Issue</a></li>
+                <li><a href="/map">Map View</a></li>
+                <li><a href="/issues">All Issues</a></li>
+                <li><a href="/profile">Profile</a></li>
+                <li><a href="/logout">Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Report Issue Form -->
+    <section class="form-section">
+        <h2>Report an Issue</h2>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="flash {{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <form method="POST" enctype="multipart/form-data">
+            <label for="title">Issue Title</label>
+            <input type="text" id="title" name="title" required>
+
+            <label for="description">Description</label>
+            <textarea id="description" name="description" rows="4" required></textarea>
+
+            <label for="category">Category</label>
+            <select id="category" name="category" required>
+                <option value="">Select Category</option>
+                <option value="Roads">Roads</option>
+                <option value="Lighting">Lighting</option>
+                <option value="Water Supply">Water Supply</option>
+                <option value="Cleanliness">Cleanliness</option>
+                <option value="Public Safety">Public Safety</option>
+                <option value="Obstructions">Obstructions</option>
+            </select>
+
+            <label for="latitude">Latitude</label>
+            <input type="text" id="latitude" name="latitude" required readonly>
+
+            <label for="longitude">Longitude</label>
+            <input type="text" id="longitude" name="longitude" required readonly>
+
+            <label for="images">Upload Photos (Max 3)</label>
+            <input type="file" id="images" name="images" accept="image/*" multiple>
+
+            <button type="submit" class="btn">Submit Report</button>
+        </form>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer-section">
+        <div class="container">
+            <p>&copy; 2025 CivicTrack | Empowering Communities</p>
+        </div>
+    </footer>
+</body>
+</html>

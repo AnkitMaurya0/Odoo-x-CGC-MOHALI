@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Profile - CivicTrack</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        .profile-container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .profile-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .profile-header h2 {
+            font-size: 32px;
+            color: #333;
+        }
+
+        .profile-details {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+        }
+
+        .profile-details div {
+            font-size: 18px;
+        }
+
+        .issues-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .issues-table th, .issues-table td {
+            padding: 12px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .issues-table th {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .no-issues {
+            text-align: center;
+            color: #888;
+            font-size: 18px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    {% include 'navbar.html' %}
+
+    <div class="profile-container">
+        <div class="profile-header">
+            <h2>Your Profile</h2>
+        </div>
+
+        <div class="profile-details">
+            <div><strong>Name:</strong> {{ user[0] }}</div>
+            <div><strong>Email:</strong> {{ user[1] }}</div>
+        </div>
+
+        <h3>Your Reported Issues</h3>
+        {% if issues %}
+            <table class="issues-table">
+                <tr>
+                    <th>ID</th>
+                    <th>Title</th>
+                    <th>Category</th>
+                    <th>Status</th>
+                </tr>
+                {% for issue in issues %}
+                <tr>
+                    <td>{{ issue[0] }}</td>
+                    <td>{{ issue[1] }}</td>
+                    <td>{{ issue[2] }}</td>
+                    <td>{{ issue[3] }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        {% else %}
+            <p class="no-issues">No issues reported yet.</p>
+        {% endif %}
+    </div>
+</body>
+</html>

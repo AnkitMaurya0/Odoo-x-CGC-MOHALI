@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CivicTrack</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="container">
+            <h1 class="logo">CivicTrack</h1>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+
+                {% if session.get('user_role') == 'admin' %}
+                    <li><a href="/admin">Admin Dashboard</a></li>
+                    <li><a href="/logout">Logout</a></li>
+
+                {% elif session.get('user_role') == 'user' %}
+                    <li><a href="/report">Report Issue</a></li>
+                    <li><a href="/map">Map View</a></li>
+                    <li><a href="/issues">All Issues</a></li>
+                    <li><a href="/profile">Profile</a></li>
+                    <li><a href="/logout">Logout</a></li>
+
+                {% else %}
+                    <li><a href="/login">Login</a></li>
+                    <li><a href="/signup">Signup</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content Based on Section -->
+    {% if not section %}
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-overlay">
+            <div class="hero-content">
+                <h2>Empowering Citizens, One Report at a Time</h2>
+                <p>Report civic issues in your locality and track their resolution within a 5 km radius.</p>
+                <a href="/login" class="btn">Report an Issue</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="container">
+            <h2>Features</h2>
+            <div class="features-grid">
+                <div class="feature-item">
+                    <h3>Quick Issue Reporting</h3>
+                    <p>Easily report issues with title, description, photos, and categories.</p>
+                </div>
+                <div class="feature-item">
+                    <h3>Track Status Updates</h3>
+                    <p>Get notified about issue progress and resolutions.</p>
+                </div>
+                <div class="feature-item">
+                    <h3>Map View & Filters</h3>
+                    <p>Visualize reported issues around you with filters for status and category.</p>
+                </div>
+                <div class="feature-item">
+                    <h3>Anonymous/Verified Reports</h3>
+                    <p>Choose to report anonymously or with verification for authenticity.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {% elif section == 'login' %}
+    <!-- Login Section -->
+    <section class="form-section">
+        <h2>Login</h2>
+        <form method="post" action="/login">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required>
+
+            <button type="submit" class="btn">Login</button>
+        </form>
+    </section>
+
+    {% elif section == 'signup' %}
+    <!-- Signup Section -->
+    <section class="form-section">
+        <h2>Signup</h2>
+        <form method="post" action="/signup">
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required>
+
+            <button type="submit" class="btn">Signup</button>
+        </form>
+    </section>
+    {% endif %}
+
+    <!-- Footer Section -->
+    <section class="footer-section">
+        <div class="container">
+            <h2>Guidelines</h2>
+            <ul class="guidelines-list">
+                <li>Report only genuine civic issues in your locality.</li>
+                <li>Use appropriate categories while reporting.</li>
+                <li>Avoid spamming or posting offensive content.</li>
+                <li>Stay within a 5 km reporting radius.</li>
+            </ul>
+
+            <h3>Contact Us</h3>
+            <p>Email: support@civictrack.com</p>
+            <p>Phone: +91-9876543210</p>
+        </div>
+    </section>
+</body>
+</html>

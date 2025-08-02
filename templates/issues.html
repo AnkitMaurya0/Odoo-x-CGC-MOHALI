@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>All Issues - CivicTrack</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="container">
+            <h1 class="logo">CivicTrack</h1>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="/report">Report Issue</a></li>
+                <li><a href="/map">Map View</a></li>
+                <li><a href="/issues">All Issues</a></li>
+                <li><a href="/profile">Profile</a></li>
+                <li><a href="/logout">Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Issues List -->
+    <section class="form-section">
+        <h2>All Reported Issues</h2>
+        {% if issues %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Title</th>
+                        <th>Category</th>
+                        <th>Status</th>
+                        <th>Latitude</th>
+                        <th>Longitude</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for issue in issues %}
+                    <tr>
+                        <td>{{ issue[0] }}</td>
+                        <td>{{ issue[1] }}</td>
+                        <td>{{ issue[2] }}</td>
+                        <td>{{ issue[3] }}</td>
+                        <td>{{ issue[4] }}</td>
+                        <td>{{ issue[5] }}</td>
+                        <td>
+                            <a href="{{ url_for('issue_detail', issue_id=issue[0]) }}">View Details</a>
+                            </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>No issues found.</p>
+        {% endif %}
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer-section">
+        <div class="container">
+            <p>&copy; 2025 CivicTrack | Empowering Communities</p>
+        </div>
+    </footer>
+</body>
+</html>
