@@ -250,7 +250,161 @@ Admin Notification → Status Management → Progress Tracking → Resolution
 - Responsive design best practices for mobile optimization
 - Database normalization principles for efficient data storage
 
----
+### Project Structure
+---CivicTrack/
+│
+├── app.py                 # Main Flask application
+├── init_db.py            # Database initialization script
+├── schema.sql            # Database schema
+├── civictrack.db         # SQLite database file
+│
+├── static/
+│   ├── css/
+│   │   └── style.css     # Main stylesheet
+│   └── uploads/          # Image upload directory
+│
+└── templates/
+    ├── home.html         # Landing page
+    ├── report.html       # Issue reporting form
+    ├── map.html          # Map view
+    ├── issues.html       # All issues list
+    ├── admin.html        # Admin dashboard
+    ├── profile.html      # User profile
+    ├── login.html        # Login page
+    ├── signup.html       # Signup page
+    ├── issue_detail.html # Issue details page
+    └── navbar.html       # Navigation component
+
+
+### Flow Chart
+flowchart TD
+    A[User Visits CivicTrack] --> B{Registered User?}
+    
+    B -->|No| C[Sign Up]
+    B -->|Yes| D[Login]
+    
+    C --> E[Enter Name, Email, Password]
+    E --> F[Account Created]
+    F --> D
+    
+    D --> G{Login Credentials}
+    G -->|Invalid| H[Show Error Message]
+    H --> D
+    
+    G -->|Valid User| I[User Dashboard]
+    G -->|Admin Credentials| J[Admin Dashboard]
+    
+    %% User Flow
+    I --> K{Choose Action}
+    K --> L[Report New Issue]
+    K --> M[View Map/Nearby Issues]
+    K --> N[View All Issues]
+    K --> O[View Profile]
+    
+    %% Report Issue Flow
+    L --> P[Fill Issue Form]
+    P --> Q[Enter Title & Description]
+    Q --> R[Select Category]
+    R --> S[Auto-detect GPS Location]
+    S --> T[Upload Photos - Max 3]
+    T --> U[Submit Report]
+    U --> V[Issue Saved to Database]
+    V --> W[Status Set to 'Reported']
+    W --> X[Show Success Message]
+    X --> I
+    
+    %% Map View Flow
+    M --> Y[Get Current Location]
+    Y --> Z[Calculate 5km Radius]
+    Z --> AA[Query Nearby Issues]
+    AA --> BB{Issues Found?}
+    BB -->|Yes| CC[Display Issues on Map]
+    BB -->|No| DD[Show 'No Issues Found']
+    CC --> I
+    DD --> I
+    
+    %% View All Issues Flow
+    N --> EE[Fetch All Issues from DB]
+    EE --> FF[Display in Table Format]
+    FF --> GG[Click Issue for Details]
+    GG --> HH[Show Issue Detail Page]
+    HH --> II[View Images & Status Logs]
+    II --> JJ[Flag Issue if Spam]
+    JJ --> I
+    
+    %% Profile Flow
+    O --> KK[Show User Info]
+    KK --> LL[Display User's Reported Issues]
+    LL --> MM[View Issue Status Updates]
+    MM --> I
+    
+    %% Admin Flow
+    J --> NN{Admin Action}
+    NN --> OO[View Dashboard Stats]
+    NN --> PP[Manage All Issues]
+    NN --> QQ[View Flagged Issues]
+    
+    %% Admin Dashboard
+    OO --> RR[Show Total Issues Count]
+    RR --> SS[Show Top Category]
+    SS --> TT[Display Analytics]
+    TT --> J
+    
+    %% Admin Issue Management
+    PP --> UU[View All Issues Table]
+    UU --> VV[Select Issue to Update]
+    VV --> WW{Change Status}
+    WW --> XX[Update to 'In Progress']
+    WW --> YY[Update to 'Resolved']
+    WW --> ZZ[Keep as 'Reported']
+    
+    XX --> AAA[Log Status Change]
+    YY --> AAA
+    ZZ --> AAA
+    AAA --> BBB[Save to Database]
+    BBB --> CCC[Show Success Message]
+    CCC --> J
+    
+    %% Flagged Issues Management
+    QQ --> DDD[View Community Flagged Issues]
+    DDD --> EEE[Review Flagged Content]
+    EEE --> FFF{Take Action}
+    FFF --> GGG[Remove Spam Issue]
+    FFF --> HHH[Keep Valid Issue]
+    GGG --> III[Delete from Database]
+    HHH --> JJJ[Unflag Issue]
+    III --> J
+    JJJ --> J
+    
+    %% Logout Flow
+    I --> KKK[Logout]
+    J --> KKK
+    KKK --> LLL[Clear Session]
+    LLL --> A
+    
+    %% Database Operations
+    V --> MMM[(SQLite Database)]
+    AAA --> MMM
+    EE --> MMM
+    KK --> MMM
+    RR --> MMM
+    UU --> MMM
+    DDD --> MMM
+    
+    %% Styling
+    classDef userProcess fill:#e1f5fe
+    classDef adminProcess fill:#fff3e0
+    classDef database fill:#f3e5f5
+    classDef decision fill:#fff9c4
+    classDef success fill:#e8f5e8
+    classDef error fill:#ffebee
+    
+    class I,K,L,M,N,O,P,Q,R,S,T,Y,Z,EE,KK userProcess
+    class J,NN,OO,PP,QQ,UU,VV,DDD,EEE adminProcess
+    class MMM database
+    class B,G,BB,WW,FFF decision
+    class F,X,CCC,III,JJJ success
+    class H,DD error
 
 ### Future Enhancements:
 - Mobile application development
