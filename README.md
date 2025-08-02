@@ -10,15 +10,6 @@
 **Member Details:**
 - **Name:** Ankit Kumar
 - **Role:** Full-Stack Developer & Project Lead
-- **Skills:** 
-  - Backend Development (Python Flask, SQLite)
-  - Frontend Development (HTML5, CSS3, JavaScript)
-  - Database Design & Management
-  - UI/UX Design
-  - System Architecture
-  - Geolocation Integration
-
----
 
 ## 2. Problem Statement
 
